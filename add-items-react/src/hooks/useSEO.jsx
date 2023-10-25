@@ -5,6 +5,6 @@ export const useSEO = ({ title, description }) => {
     document.title = title
     document
       .querySelector('meta[name="description"]')
-      .setAttribute('content', description)
+      ?.setAttribute('content', description)
   }, [title, description])
 }
