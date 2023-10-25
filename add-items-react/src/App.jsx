@@ -1,34 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useCallback } from 'react'
 import './App.css'
+import { useItems } from './hooks/useItems'
+import { ListElements } from './components/ListElements'
+import { useSEO } from './hooks/useSEO'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const { items, addItem, removeItem } = useItems()
+
+  useSEO({
+    title: `[${items.length}] Prueba técnica`,
+    description: 'Añadir y eliminar elementos de una lista',
+  })
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const form = event.currentTarget
+    const input = form.elements.namedItem('newItem')
+
+    addItem(input.value)
+    input.value = ''
+  }
+
+  const createHandleRemoveItem = useCallback(
+    (id) => () => {
+      removeItem(id)
+    },
+    [removeItem]
+  )
 
   return (
-    <>
+    <main>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>Prueba técnica de React</h1>
+        <p>Añadir y eliminar elementos de una lista</p>
+        <form onSubmit={handleSubmit} aria-label="Añadir elementos a la lista">
+          <input
+            type="text"
+            name="newItem"
+            placeholder="Nuevo elemento"
+            required
+          />
+          <button>Añadir</button>
+        </form>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <h3>Listado de elementos</h3>
+        <ListElements items={items} handleClick={createHandleRemoveItem} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </main>
   )
 }
 
