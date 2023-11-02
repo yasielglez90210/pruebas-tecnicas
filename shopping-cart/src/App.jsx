@@ -2,39 +2,12 @@ import { Fragment, useState } from 'react'
 import Products from './components/Products'
 import { products as initialProducts } from './mocks/products.json'
 import CategoryFilter from './components/CategoryFilter'
-import { categories } from './utils/getCategories'
 import PriceFilter from './components/PriceFilter'
+import { useFilters } from './hooks/useFilters'
 
 function App() {
   const [products] = useState(initialProducts)
-  const [filters, setFilters] = useState({
-    category: 'all',
-    minPrice: 0,
-  })
-
-  const handleSetFiltersCategory = (category) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      category,
-    }))
-  }
-
-  const handleSetFiltersMinPrice = (event) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      minPrice: parseInt(event.target.value),
-    }))
-  }
-
-  const filterProducts = (products) => {
-    return products.filter((product) => {
-      const { category, minPrice } = filters
-      const hasCategory = category === 'all' || product.category === category
-      const hasMinPrice = product.price >= minPrice
-
-      return hasCategory && hasMinPrice
-    })
-  }
+  const { filterProducts } = useFilters()
 
   const filteredProducts = filterProducts(products)
 
@@ -44,16 +17,8 @@ function App() {
         Shopping Cart
       </h1>
       <div className="flex flex-wrap md:flex-nowrap justify-between items-center mx-auto gap-6 px-4 sm:px-6 max-w-2xl">
-        <PriceFilter
-          selected={filters.minPrice}
-          onChange={handleSetFiltersMinPrice}
-        />
-
-        <CategoryFilter
-          categories={categories}
-          selected={filters.category}
-          onChange={handleSetFiltersCategory}
-        />
+        <PriceFilter />
+        <CategoryFilter />
       </div>
       <Products products={filteredProducts} />
     </Fragment>
