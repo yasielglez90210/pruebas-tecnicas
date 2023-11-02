@@ -4,6 +4,7 @@ import { products as initialProducts } from './mocks/products.json'
 import CategoryFilter from './components/CategoryFilter'
 import PriceFilter from './components/PriceFilter'
 import { useFilters } from './hooks/useFilters'
+import Headers from './components/Header'
 
 function App() {
   const [products] = useState(initialProducts)
@@ -13,9 +14,7 @@ function App() {
 
   return (
     <Fragment>
-      <h1 className="text-3xl font-bold text-center mt-10 mb-10">
-        Shopping Cart
-      </h1>
+      <Headers />
       <div className="flex flex-wrap md:flex-nowrap justify-between items-center mx-auto gap-6 px-4 sm:px-6 max-w-2xl">
         <PriceFilter />
         <CategoryFilter />
