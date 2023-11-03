@@ -1,9 +1,11 @@
 import { ShoppingBagIcon } from '@heroicons/react/24/outline'
 import CartDialog from './UI/Dialog/cartDialog'
 import { useState } from 'react'
+import { useCart } from '../hooks/useCart'
 
 export default function Header() {
-  const [cart, setCart] = useState(false)
+  const { cart } = useCart()
+  const [cartDialog, setCartDialog] = useState(false)
 
   return (
     <header className="border-b border-gray-200 bg-white mb-16">
@@ -19,7 +21,7 @@ export default function Header() {
               {/* Cart */}
               <div className="relative ml-2 mr-2 flow-root lg:ml-4">
                 <div
-                  onClick={() => setCart(true)}
+                  onClick={() => setCartDialog(true)}
                   href="#"
                   className="group -m-2 flex cursor-pointer items-center p-2"
                 >
@@ -28,7 +30,7 @@ export default function Header() {
                     aria-hidden="true"
                   />
                   <span className="absolute left-[14px] top-0 rounded-full bg-indigo-600 px-1 text-[11px] font-medium text-white">
-                    0
+                    {cart.length}
                   </span>
                   <span className="sr-only">items in cart, view bag</span>
                 </div>
@@ -37,7 +39,7 @@ export default function Header() {
           </div>
         </div>
       </nav>
-      <CartDialog cart={cart} setCart={setCart} />
+      <CartDialog cartDialog={cartDialog} setCartDialog={setCartDialog} />
     </header>
   )
 }
