@@ -1,5 +1,3 @@
-export const cartInitialState = []
-
 export const CART_ACTIONS = {
   ADD_TO_CART: 'ADD_TO_CART',
   REMOVE_FROM_CART: 'REMOVE_FROM_CART',
@@ -20,7 +18,8 @@ export const cartReducer = (state, action) => {
         return newState
       }
 
-      return [...state, { ...actionPayload, quantity: 1 }]
+      const newState = [...state, { ...actionPayload, quantity: 1 }]
+      return newState
     }
 
     case CART_ACTIONS.REMOVE_FROM_CART: {
@@ -41,7 +40,7 @@ export const cartReducer = (state, action) => {
     }
 
     case CART_ACTIONS.CLEAN_CART: {
-      return cartInitialState
+      return []
     }
   }
 
