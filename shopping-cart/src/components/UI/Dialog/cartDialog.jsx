@@ -2,10 +2,10 @@ import { Dialog } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import MyDialog from '../Dialog/index'
 import { useCart } from '../../../hooks/useCart'
+import CartItem from '../../CartItem'
 
 export default function CartDialog({ cartDialog, setCartDialog }) {
-  const { cart, handleAddToCart, handleRemoveFromCart, handleCleanCart } =
-    useCart()
+  const { cart, handleAddToCart, handleCleanCart } = useCart()
 
   return (
     <MyDialog
@@ -40,41 +40,11 @@ export default function CartDialog({ cartDialog, setCartDialog }) {
           ) : (
             <div className="grid grid-cols-1 gap-y-10 w-3/4 mx-auto">
               {cart.map((product) => (
-                <div key={product.id} href={product.href} className="group">
-                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                    <img
-                      src={product.thumbnail}
-                      alt={product.title}
-                      className="w-full h-28 object-cover object-center"
-                    />
-                  </div>
-                  <h3 className="mt-4 text-sm text-gray-700">
-                    {product.title}
-                  </h3>
-                  <p className="mt-1 text-lg font-medium text-gray-900">
-                    ${product.price}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex-initial w-fit">
-                      <span>Qty: {product.quantity}</span>
-                    </div>
-                    <div className="flex-initial w-fit">
-                      <button
-                        onClick={() => handleRemoveFromCart(product.id)}
-                        className="w-fit bg-red-500 p-1 px-3 rounded-lg text-white mr-3"
-                      >
-                        -
-                      </button>
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        className="w-fit bg-blue-500 p-1 px-3 rounded-lg text-white"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <hr className="mt-10" />
-                </div>
+                <CartItem
+                  key={product.id}
+                  addToCart={() => handleAddToCart(product)}
+                  {...product}
+                />
               ))}
             </div>
           )}
