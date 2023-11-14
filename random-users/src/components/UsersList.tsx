@@ -1,20 +1,44 @@
-import { type User } from '../types'
+import { SortBy, type User } from '../types.d'
 
 interface Props {
   users: User[]
   showColors: boolean
   handleDelete: (email: string) => void
+  handleChangeSort: (sort: SortBy) => void
 }
 
-export function UsersList({ users, showColors, handleDelete }: Props) {
+export function UsersList({
+  users,
+  showColors,
+  handleDelete,
+  handleChangeSort,
+}: Props) {
   return (
     <table className={showColors ? 'table-odd-even' : ''}>
       <thead>
         <tr>
           <th>Foto</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>País</th>
+          <th
+            onClick={() => {
+              handleChangeSort(SortBy.NAME)
+            }}
+          >
+            Nombre
+          </th>
+          <th
+            onClick={() => {
+              handleChangeSort(SortBy.LAST)
+            }}
+          >
+            Apellido
+          </th>
+          <th
+            onClick={() => {
+              handleChangeSort(SortBy.COUNTRY)
+            }}
+          >
+            País
+          </th>
           <th>Acciones</th>
         </tr>
       </thead>

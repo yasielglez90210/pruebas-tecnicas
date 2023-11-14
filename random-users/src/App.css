@@ -9,6 +9,10 @@ table {
   width: 100%;
 }
 
+table thead th:not(:last-child):not(:first-child) {
+  cursor: pointer;
+}
+
 table tbody tr td:first-child {
   display: flex;
   justify-content: center;
