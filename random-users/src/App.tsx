@@ -8,6 +8,8 @@ function App() {
   const [showColors, setShowColors] = useState(false)
   const [sorting, setSorting] = useState<SortBy>(SortBy.NONE)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const originalUsers = useRef<User[]>([])
   // useRef --> para guardar un valor que queremos que se comparta
@@ -78,18 +80,35 @@ function App() {
     //   : filteredUsers
   }, [filteredUsers, sorting])
 
+  const handleCurrentPage = () => {
+    setCurrentPage((prevState) => prevState + 1)
+  }
+
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=100')
-      .then(async (res) => await res.json())
+    setLoading(true)
+
+    fetch(
+      `https://randomuser.me/api/?results=10&seed=yasiel&page=${currentPage}`
+    )
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Error en la petición')
+        return await res.json()
+      })
       .then((res) => {
         const { results } = res
-        setUsers(results)
-        originalUsers.current = results
+        setUsers((prevUsers) => {
+          const newUsers = prevUsers.concat(results)
+          originalUsers.current = newUsers
+          return newUsers
+        })
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [currentPage])
 
   return (
     <main>
@@ -110,12 +129,19 @@ function App() {
           placeholder="Filtrar por país"
         />
       </div>
-      <UsersList
-        handleChangeSort={handleChangeSort}
-        handleDelete={handleDelete}
-        showColors={showColors}
-        users={sortedUsers}
-      />
+      {users.length > 0 && (
+        <UsersList
+          handleChangeSort={handleChangeSort}
+          handleDelete={handleDelete}
+          showColors={showColors}
+          users={sortedUsers}
+        />
+      )}
+      {loading && <strong>Cargando...</strong>}
+      {!loading && users.length === 0 && <strong>No existen usuarios</strong>}
+      {!loading && (
+        <button onClick={handleCurrentPage}>Cargar más resultados</button>
+      )}
     </main>
   )
 }
