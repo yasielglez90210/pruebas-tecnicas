@@ -4,6 +4,7 @@ import useUsers from './hooks/useUsers'
 import { SortBy, type queryData } from './types.d'
 import { useMemo, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import Visor from './components/Visor'
 
 function App() {
   const { users, isLoading, hasNextPage, refetch, fetchNextPage } = useUsers()
@@ -29,7 +30,7 @@ function App() {
     if (filterCountryFef.current) {
       filterCountryFef.current.value = ''
     }
-    refetch()
+    void refetch()
   }
 
   const handleNextPage = () => {
@@ -37,7 +38,7 @@ function App() {
     if (filterCountryFef.current) {
       filterCountryFef.current.value = ''
     }
-    fetchNextPage()
+    void fetchNextPage()
   }
 
   const handleChangeSort = (sort: SortBy) => {
@@ -117,18 +118,21 @@ function App() {
         />
       </div>
       {users.length > 0 && (
-        <UsersList
-          handleChangeSort={handleChangeSort}
-          handleDelete={handleDelete}
-          showColors={showColors}
-          users={sortedUsers}
-        />
+        <>
+          <UsersList
+            handleChangeSort={handleChangeSort}
+            handleDelete={handleDelete}
+            showColors={showColors}
+            users={sortedUsers}
+          />
+          <Visor handleNextPage={handleNextPage} />
+        </>
       )}
       {isLoading && <strong>Cargando...</strong>}
       {!isLoading && users.length === 0 && <strong>No existen usuarios</strong>}
-      {!isLoading && hasNextPage && (
+      {/* {!isLoading && hasNextPage && (
         <button onClick={handleNextPage}>Cargar más resultados</button>
-      )}
+      )} */}
       {!isLoading && !hasNextPage && <strong>No hay más resultados</strong>}
     </main>
   )
