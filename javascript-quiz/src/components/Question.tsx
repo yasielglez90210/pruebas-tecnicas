@@ -13,14 +13,10 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { useQuestionsStore } from '../store/questions'
 import { Check } from '@mui/icons-material'
-import { getBackgroundColor } from '../utils/getBackgroundColor'
-import confetti from 'canvas-confetti'
+import { getBackgroundColor } from '../utils/classes'
 
 export const Question = ({ info }: { info: QuestionType }) => {
   const selectAnswer = useQuestionsStore((state) => state.selectAnswer)
-  const { isCorrectUserAnswer } = info
-
-  if (isCorrectUserAnswer !== undefined && isCorrectUserAnswer) confetti()
 
   const createHandleClick = (answerIndex: number) => () => {
     selectAnswer(info.id, answerIndex)
@@ -40,6 +36,7 @@ export const Question = ({ info }: { info: QuestionType }) => {
             {info.answers.map((answer, index, answers) => {
               const divider = index === answers.length - 1 ? false : true
               const selected = info.userSelectedAnswer ?? -1
+              const backgroundColor = getBackgroundColor(info, index)
 
               return (
                 <ListItem
@@ -50,7 +47,7 @@ export const Question = ({ info }: { info: QuestionType }) => {
                   <ListItemButton
                     divider={divider}
                     disabled={info.userSelectedAnswer !== undefined}
-                    sx={{ backgroundColor: getBackgroundColor(info, index) }}
+                    sx={{ backgroundColor: backgroundColor }}
                   >
                     {selected === index && (
                       <ListItemIcon sx={{ position: 'absolute' }}>

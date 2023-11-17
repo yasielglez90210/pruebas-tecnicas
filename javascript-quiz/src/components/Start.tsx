@@ -1,5 +1,6 @@
 import { Button } from '@mui/material'
 import { useQuestionsStore } from '../store/questions'
+import { buttonCenter } from '../utils/classes'
 
 export const Start = () => {
   const fetchQuestions = useQuestionsStore((state) => state.fetchQuestions)
@@ -8,11 +9,7 @@ export const Start = () => {
     fetchQuestions(10)
   }
   return (
-    <Button
-      sx={{ display: 'flex', marginLeft: 'auto', marginRight: 'auto' }}
-      onClick={handleClick}
-      variant="contained"
-    >
+    <Button sx={buttonCenter} onClick={handleClick} variant="contained">
       Empezar
     </Button>
   )
