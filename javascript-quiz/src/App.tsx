@@ -7,7 +7,6 @@ import { Game } from './components/Game'
 
 function App() {
   const questions = useQuestionsStore((state) => state.questions)
-  const currentQuestion = useQuestionsStore((state) => state.currentQuestion)
 
   return (
     <main>
@@ -17,7 +16,7 @@ function App() {
           gap={2}
           alignItems={'center'}
           justifyContent={'center'}
-          marginBottom={'20px'}
+          marginBottom={'30px'}
         >
           <JavaScriptLogo />
           <Typography variant="h2" component="h1">
