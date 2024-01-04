@@ -1,6 +1,6 @@
 export const fizzbuzz = (number) => {
-  if (typeof number !== 'number') throw new Error('Debería der un número')
-  if (Number.isNaN(number)) throw new Error('Debería der un número')
+  if (typeof number !== 'number') throw new Error('Debería ser un número')
+  if (Number.isNaN(number)) throw new Error('Debería ser un número')
 
   const multiplos = { 3: 'fizz', 5: 'buzz' }
   let result = ''
