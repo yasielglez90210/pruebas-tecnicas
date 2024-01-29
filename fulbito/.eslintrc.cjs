@@ -31,6 +31,9 @@ module.exports = {
         reservedFirst: true,
       },
     ],
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/require-await': 'off',
+    'react/no-array-index-key': 'off',
 
     // 'react/no-array-index-key': 'off',
     // '@typescript-eslint/no-misused-promises': 'off',
@@ -53,7 +56,6 @@ module.exports = {
 
     // '@typescript-eslint/no-non-null-assertion': 'off',
     // '@typescript-eslint/no-shadow': 'off',
-    // '@typescript-eslint/require-await': 'off',
     // '@typescript-eslint/no-floating-promises': 'off',
     // '@typescript-eslint/no-confusing-void-expression': 'off',
     // '@typescript-eslint/no-unused-vars': [
